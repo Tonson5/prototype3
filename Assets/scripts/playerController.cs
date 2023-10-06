@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class playerController : MonoBehaviour
@@ -8,6 +9,7 @@ public class playerController : MonoBehaviour
     public float jumpForce;
     public float gravityModifier;
     public bool isOnGround = true;
+    public bool gameOver = false;
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
@@ -26,6 +28,15 @@ public class playerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        isOnGround = true;
-    }
+    if (collision.gameObject.CompareTag("Ground"))
+        {
+            isOnGround = true;
+        }
+        else if (collision.gameObject.CompareTag("Obsticle"))
+        {
+            gameOver = true;
+            Debug.Log("Game Over!");
+        }
+    } 
+   
 }
