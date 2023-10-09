@@ -9,8 +9,10 @@ public class spawnManager : MonoBehaviour
     private float startDelay = 2;
     private float repeatRate = 2;
     private playerController playerControllerScript;
+    
     void Start()
     {
+        
         InvokeRepeating("SpawnObsticle", startDelay, repeatRate);
         playerControllerScript = GameObject.Find("player").GetComponent<playerController>();
     }
