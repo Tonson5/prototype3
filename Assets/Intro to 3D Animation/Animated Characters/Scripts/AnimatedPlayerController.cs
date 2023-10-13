@@ -19,6 +19,7 @@ public class AnimatedPlayerController : MonoBehaviour
     //Animator Variables
     private Animator animator;
 
+    public ParticleSystem dustCloud;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class AnimatedPlayerController : MonoBehaviour
         //Get Components
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        dustCloud.Stop();
 
     }
 
@@ -53,6 +55,14 @@ public class AnimatedPlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             animator.SetTrigger("shoot");
+        }
+        if(verticalInput > 0 && !dustCloud.isPlaying)
+        {
+            dustCloud.Play();
+        }
+        else if(verticalInput<=0)
+        {
+            dustCloud.Stop();
         }
 
     }

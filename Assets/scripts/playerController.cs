@@ -11,11 +11,17 @@ public class playerController : MonoBehaviour
     public bool isOnGround = true;
     public bool gameOver = false;
     private Animator animator;
+
+    //particles
+    public ParticleSystem dustCloud;
+
     void Start()
     {
+        
         animator = GetComponent<Animator>();
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
+        dustCloud.Stop();
     }
 
 
