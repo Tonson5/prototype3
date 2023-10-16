@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -11,17 +12,21 @@ public class playerController : MonoBehaviour
     public bool isOnGround = true;
     public bool gameOver = false;
     private Animator animator;
-
-    //particles
+    public ParticleSystem explosionPartical;
     public ParticleSystem dustCloud;
+    public AudioClip explosion;
+    public AudioClip jumpSound;
+    private AudioSource AudioSource;
+    //particles
+
 
     void Start()
     {
-        
+        AudioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         playerRb = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifier;
-        dustCloud.Stop();
+        
     }
 
 
@@ -32,6 +37,8 @@ public class playerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isOnGround = false;
             animator.SetTrigger("Jump_trig");
+            dustCloud.Stop();
+            AudioSource.PlayOneShot(jumpSound, 1.0f);
         }
         
     }
@@ -40,6 +47,7 @@ public class playerController : MonoBehaviour
     if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
+            dustCloud.Play();
         }
         else if (collision.gameObject.CompareTag("Obsticle"))
         {
@@ -47,6 +55,9 @@ public class playerController : MonoBehaviour
             Debug.Log("Game Over!");
             animator.SetBool("Death_b", true);
             animator.SetInteger("DeathType_int", 1);
+            explosionPartical.Play();
+            dustCloud.Stop();
+            AudioSource.PlayOneShot(explosion, 1.0f);
         }
     } 
    
